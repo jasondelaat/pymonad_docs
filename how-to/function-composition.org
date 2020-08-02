@@ -1,0 +1,82 @@
+#+Title: Function Composition
+#+options: toc:nil
+
+* Function Composition
+  There are two ways to handle basic function composition with
+  pymonad: =Compose= and =Pipe=. Both are really just aliases for the
+  =Reader= monad with names that are a bit more semantically
+  meaningful for the way that they're used, while =Reader= itself is
+  used slightly differently.
+  
+** Compose
+   =Compose= takes a series of functions and combines them in a
+   feed-forward manner producing a new function.
+   
+   #+begin_src python
+     from pymonad.reader import Compose
+
+     def add_1(x):
+	 return x + 1
+
+     def mul_3(x):
+	 return 3 * x
+
+     # Creates a new function that first adds 1, then multiplies by 3, and
+     # finally converts the result to a string.
+     new_func = (Compose(add_1)
+		 .then(mul_3)
+		 .then(str)
+     )
+
+     print(new_func(2)) # '9'
+   #+end_src
+
+** Pipe
+   =Pipe= is similar to =Compose= but rather than starting with a
+   function it starts by taking in a value and then feeding it through
+   the following functions.
+
+   #+begin_src python
+     from pymonad.reader import Pipe
+
+     def add_1(x):
+	 return x + 1
+
+     def mul_3(x):
+	 return 3 * x
+
+     result = (Pipe(2)
+	      .then(add_1)
+	      .then(mul_3)
+	      .then(str)
+	      .flush()
+     )
+
+     print(result) # '9'
+   #+end_src
+
+   There are two things to note here.
+   
+   1. While =Compose= results in a new function, =Pipe= produces a result.
+   2. In order to access the result you need to call =flush()= at the
+      end of the pipe operation.[fn::Since =Pipe= is based on the
+      =Reader= monad, without =flush()= you would actually get a
+      function as a result. That function, however, would ignore it's
+      input and always give the same result. =flush()= simply calls
+      this function with dummy input and gives you back the result.]
+
+   =Pipe= is the only construct in pymonad with a defined operator: The unary +.
+   The unary + operator typically just returns the value it's given
+   without modifying it in any way. With =Pipe= it's used to return
+   the value which the pipe produces. In other words, you can use '+'
+   instead of =flush()=, like so:
+
+   #+begin_src python
+     result = (+Pipe(2)
+	      .then(add_1)
+	      .then(mul_3)
+	      .then(str)
+     )
+
+     print(result) # '9'
+  #+end_src

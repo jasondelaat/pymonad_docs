@@ -1,0 +1,84 @@
+#+OPTIONS: toc:nil
+#+TITLE: How to install =pymonad= with =pipenv=
+  [[https://pypi.org/project/pipenv/][=pipenv=]] combines the functionality of =pip= and =virtualenv= on a
+  per project basis. It's pretty easy to use and it sets up your
+  virtual environments automatically.
+
+  If you haven't already installed =pipenv= we'll do that first.
+
+  #+begin_src bash
+    pip install pipenv
+  #+end_src
+  
+  Once =pipenv= is installed there are two ways that you can install
+  =pymonad= for local development.
+  1. Install from the Python Package Index (PyPI)
+  2. Install from the source distribution
+     
+** Installing from PyPI
+   Start by creating a folder for your project and navigating into it.
+
+  #+begin_src bash
+    mkdir MyProject
+    cd MyProject
+  #+end_src
+
+  Then use =pipenv= to install =pymonad=.
+
+  #+begin_src bash
+    pipenv --three install pymonad
+  #+end_src
+
+  This command will automatically create a virtual environment in the
+  =MyProject= directory and adds two files, =Pipfile= and
+  =Pipfile.lock=. The =--three= flag ensures that =pipenv= creates a
+  virtual environment for =python3= which is required for =pymonad=.
+  
+
+** Installing from source
+   To install =pymonad= from source, first download the source code
+   from bitbucket. You can either download the project as a zip
+   archive [[https://bitbucket.org/jason_delaat/pymonad/get/76a369890295.zip][here]], or clone the repository with =git=.
+
+   
+   #+begin_src bash
+     git clone https://bitbucket.org/jason_delaat/pymonad.git
+   #+end_src
+
+   Put the =pymonad= directory somewhere that makes sense and then
+   create and navigate to your project directory.
+   
+
+    #+begin_src bash
+      mkdir MyProject
+      cd MyProject
+    #+end_src
+    
+    And use =pipenv= to install. Assuming you've put the =pymonad=
+    directory in =~/lib/= then you would type:
+
+    #+begin_src bash
+      pipenv --three install -e ~/lib/pymonad
+    #+end_src
+
+** Checking that it works
+    If everything worked correctly you can activate your virtual
+    environment with:
+
+    #+begin_src bash
+      pipenv shell
+    #+end_src
+
+    Now, launch the =python= REPL
+
+    #+begin_src bash
+      python
+    #+end_src
+    
+    And import the =pymonad.tools= module.
+
+    #+begin_src python
+      import pymonad.tools
+    #+end_src
+    
+    If you don't get an error message then everything is working correctly.

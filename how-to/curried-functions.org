@@ -1,0 +1,54 @@
+#+OPTIONS: toc:nil
+#+TITLE: How to write and use curried functions
+  Creating curried functions is pretty straight-forward with
+  pymonad. The =tools= module provides the function =curry= which
+  allows you to turn any function, including python built-ins and
+  functions which take variable numbers of arguments, into curried
+  functions.
+  
+  #+begin_src python
+    from pymonad.tools import curry
+  #+end_src
+  
+  =curry= takes two parameters: The first parameter is the number of
+  arguments to curry and the second argument is the actual
+  function. For instance given the following function:
+  
+  #+begin_src python
+    def add(x, y):
+	return x + y
+  #+end_src
+
+  We create a curried version like this:
+
+  #+begin_src python
+    curried_add = curry(2, add)
+
+    # Or, if you don't need the original
+    #add = curry(2, add)
+  #+end_src
+
+  If a function takes a variable number of arguments you can create
+  multiple curried versions easily.
+
+  #+begin_src python
+    curried_map = curry(2, map) # Takes a function and a single list
+    curried_map2 = curry(3, map) # Takes a function and two lists
+    # etc...
+  #+end_src
+  
+  Whether this is a good idea or not is left as an exercise for the
+  reader.
+  
+  =curry= is itself a curried function so you can partially apply it
+  and use it as a decorator to define curried functions easily:
+
+  #+begin_src python
+    @curry(2)
+    def add(x, y):
+	return x + y
+
+    three = add(1, 2)
+    add_1 = add(1)
+    also_three = add_1(2)
+  #+end_src
