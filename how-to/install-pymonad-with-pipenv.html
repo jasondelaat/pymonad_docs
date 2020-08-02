@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-08-02 Sun 11:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to install <code>pymonad</code> with <code>pipenv</code></title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jason DeLaat" />
+<link rel='stylesheet' type='text/css' href='./css/org.css' /><link rel='stylesheet' type='text/css' href='../css/org.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">How to install <code>pymonad</code> with <code>pipenv</code></h1>
+<p>
+<a href="https://pypi.org/project/pipenv/"><code>pipenv</code></a> combines the functionality of <code>pip</code> and <code>virtualenv</code> on a
+per project basis. It's pretty easy to use and it sets up your
+virtual environments automatically.
+</p>
+
+<p>
+If you haven't already installed <code>pipenv</code> we'll do that first.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pip install pipenv
+</pre>
+</div>
+
+<p>
+Once <code>pipenv</code> is installed there are two ways that you can install
+<code>pymonad</code> for local development.
+</p>
+<ol class="org-ol">
+<li>Install from the Python Package Index (PyPI)</li>
+<li>Install from the source distribution</li>
+</ol>
+
+<div id="outline-container-org2cabb97" class="outline-2">
+<h2 id="org2cabb97">Installing from PyPI</h2>
+<div class="outline-text-2" id="text-org2cabb97">
+<p>
+Start by creating a folder for your project and navigating into it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">mkdir MyProject
+<span style="color: #483d8b;">cd</span> MyProject
+</pre>
+</div>
+
+<p>
+Then use <code>pipenv</code> to install <code>pymonad</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pipenv --three install pymonad
+</pre>
+</div>
+
+<p>
+This command will automatically create a virtual environment in the
+<code>MyProject</code> directory and adds two files, <code>Pipfile</code> and
+<code>Pipfile.lock</code>. The <code>--three</code> flag ensures that <code>pipenv</code> creates a
+virtual environment for <code>python3</code> which is required for <code>pymonad</code>.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc458604" class="outline-2">
+<h2 id="orgc458604">Installing from source</h2>
+<div class="outline-text-2" id="text-orgc458604">
+<p>
+To install <code>pymonad</code> from source, first download the source code
+from bitbucket. You can either download the project as a zip
+archive <a href="https://bitbucket.org/jason_delaat/pymonad/get/76a369890295.zip">here</a>, or clone the repository with <code>git</code>.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-bash">git clone https://bitbucket.org/jason_delaat/pymonad.git
+</pre>
+</div>
+
+<p>
+Put the <code>pymonad</code> directory somewhere that makes sense and then
+create and navigate to your project directory.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-bash">mkdir MyProject
+<span style="color: #483d8b;">cd</span> MyProject
+</pre>
+</div>
+
+<p>
+And use <code>pipenv</code> to install. Assuming you've put the <code>pymonad</code>
+directory in <code>~/lib/</code> then you would type:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pipenv --three install -e ~/lib/pymonad
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgca674de" class="outline-2">
+<h2 id="orgca674de">Checking that it works</h2>
+<div class="outline-text-2" id="text-orgca674de">
+<p>
+If everything worked correctly you can activate your virtual
+environment with:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">pipenv shell
+</pre>
+</div>
+
+<p>
+Now, launch the <code>python</code> REPL
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python
+</pre>
+</div>
+
+<p>
+And import the <code>pymonad.tools</code> module.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> pymonad.tools
+</pre>
+</div>
+
+<p>
+If you don't get an error message then everything is working correctly.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Jason DeLaat</p>
+<p class="date">Created: 2020-08-02 Sun 11:50</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

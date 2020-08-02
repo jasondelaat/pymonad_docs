@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-08-02 Sun 11:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Function Composition</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jason DeLaat" />
+<link rel='stylesheet' type='text/css' href='./css/org.css' /><link rel='stylesheet' type='text/css' href='../css/org.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Function Composition</h1>
+
+<div id="outline-container-orgab6f055" class="outline-2">
+<h2 id="orgab6f055">Function Composition</h2>
+<div class="outline-text-2" id="text-orgab6f055">
+<p>
+There are two ways to handle basic function composition with
+pymonad: <code>Compose</code> and <code>Pipe</code>. Both are really just aliases for the
+<code>Reader</code> monad with names that are a bit more semantically
+meaningful for the way that they're used, while <code>Reader</code> itself is
+used slightly differently.
+</p>
+</div>
+
+<div id="outline-container-org3d1839d" class="outline-3">
+<h3 id="org3d1839d">Compose</h3>
+<div class="outline-text-3" id="text-org3d1839d">
+<p>
+<code>Compose</code> takes a series of functions and combines them in a
+feed-forward manner producing a new function.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> pymonad.reader <span style="color: #a020f0;">import</span> Compose
+
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">add_1</span>(x):
+    <span style="color: #a020f0;">return</span> x + 1
+
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">mul_3</span>(x):
+    <span style="color: #a020f0;">return</span> 3 * x
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Creates a new function that first adds 1, then multiplies by 3, and</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">finally converts the result to a string.</span>
+<span style="color: #a0522d;">new_func</span> = (Compose(add_1)
+            .then(mul_3)
+            .then(<span style="color: #483d8b;">str</span>)
+)
+
+<span style="color: #a020f0;">print</span>(new_func(2)) <span style="color: #b22222;"># </span><span style="color: #b22222;">'9'</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfb8a8d6" class="outline-3">
+<h3 id="orgfb8a8d6">Pipe</h3>
+<div class="outline-text-3" id="text-orgfb8a8d6">
+<p>
+<code>Pipe</code> is similar to <code>Compose</code> but rather than starting with a
+function it starts by taking in a value and then feeding it through
+the following functions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> pymonad.reader <span style="color: #a020f0;">import</span> Pipe
+
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">add_1</span>(x):
+    <span style="color: #a020f0;">return</span> x + 1
+
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">mul_3</span>(x):
+    <span style="color: #a020f0;">return</span> 3 * x
+
+<span style="color: #a0522d;">result</span> = (Pipe(2)
+         .then(add_1)
+         .then(mul_3)
+         .then(<span style="color: #483d8b;">str</span>)
+         .flush()
+)
+
+<span style="color: #a020f0;">print</span>(result) <span style="color: #b22222;"># </span><span style="color: #b22222;">'9'</span>
+</pre>
+</div>
+
+<p>
+There are two things to note here.
+</p>
+
+<ol class="org-ol">
+<li>While <code>Compose</code> results in a new function, <code>Pipe</code> produces a result.</li>
+<li>In order to access the result you need to call <code>flush()</code> at the
+end of the pipe operation.<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup></li>
+</ol>
+
+<p>
+<code>Pipe</code> is the only construct in pymonad with a defined operator: The unary +.
+The unary + operator typically just returns the value it's given
+without modifying it in any way. With <code>Pipe</code> it's used to return
+the value which the pipe produces. In other words, you can use '+'
+instead of <code>flush()</code>, like so:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a0522d;">result</span> = (+Pipe(2)
+         .then(add_1)
+         .then(mul_3)
+         .then(<span style="color: #483d8b;">str</span>)
+)
+
+<span style="color: #a020f0;">print</span>(result) <span style="color: #b22222;"># </span><span style="color: #b22222;">'9'</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara">Since <code>Pipe</code> is based on the
+<code>Reader</code> monad, without <code>flush()</code> you would actually get a
+function as a result. That function, however, would ignore it's
+input and always give the same result. <code>flush()</code> simply calls
+this function with dummy input and gives you back the result.</div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Jason DeLaat</p>
+<p class="date">Created: 2020-08-02 Sun 11:50</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-08-02 Sun 11:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to write and use curried functions</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jason DeLaat" />
+<link rel='stylesheet' type='text/css' href='./css/org.css' /><link rel='stylesheet' type='text/css' href='../css/org.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">How to write and use curried functions</h1>
+<p>
+Creating curried functions is pretty straight-forward with
+pymonad. The <code>tools</code> module provides the function <code>curry</code> which
+allows you to turn any function, including python built-ins and
+functions which take variable numbers of arguments, into curried
+functions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> pymonad.tools <span style="color: #a020f0;">import</span> curry
+</pre>
+</div>
+
+<p>
+<code>curry</code> takes two parameters: The first parameter is the number of
+arguments to curry and the second argument is the actual
+function. For instance given the following function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">def</span> <span style="color: #0000ff;">add</span>(x, y):
+    <span style="color: #a020f0;">return</span> x + y
+</pre>
+</div>
+
+<p>
+We create a curried version like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a0522d;">curried_add</span> = curry(2, add)
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Or, if you don't need the original</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">add = curry(2, add)</span>
+</pre>
+</div>
+
+<p>
+If a function takes a variable number of arguments you can create
+multiple curried versions easily.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a0522d;">curried_map</span> = curry(2, <span style="color: #483d8b;">map</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">Takes a function and a single list</span>
+<span style="color: #a0522d;">curried_map2</span> = curry(3, <span style="color: #483d8b;">map</span>) <span style="color: #b22222;"># </span><span style="color: #b22222;">Takes a function and two lists</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">etc...</span>
+</pre>
+</div>
+
+<p>
+Whether this is a good idea or not is left as an exercise for the
+reader.
+</p>
+
+<p>
+<code>curry</code> is itself a curried function so you can partially apply it
+and use it as a decorator to define curried functions easily:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #228b22;">@curry</span>(2)
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">add</span>(x, y):
+    <span style="color: #a020f0;">return</span> x + y
+
+<span style="color: #a0522d;">three</span> = add(1, 2)
+<span style="color: #a0522d;">add_1</span> = add(1)
+<span style="color: #a0522d;">also_three</span> = add_1(2)
+</pre>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Jason DeLaat</p>
+<p class="date">Created: 2020-08-02 Sun 11:50</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
