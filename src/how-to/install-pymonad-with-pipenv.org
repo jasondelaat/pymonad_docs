@@ -1,5 +1,7 @@
 #+OPTIONS: toc:nil
 #+TITLE: How to install =pymonad= with =pipenv=
+#+author: Jason DeLaat
+#+email: jason.develops@gmail.com
   [[https://pypi.org/project/pipenv/][=pipenv=]] combines the functionality of =pip= and =virtualenv= on a
   per project basis. It's pretty easy to use and it sets up your
   virtual environments automatically.

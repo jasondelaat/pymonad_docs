@@ -1,4 +1,6 @@
 #+Title: Function Composition
+#+author: Jason DeLaat
+#+email: jason.develops@gmail.com
 #+options: toc:nil
 
 * Function Composition

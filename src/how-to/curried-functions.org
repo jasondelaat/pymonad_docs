@@ -1,5 +1,7 @@
 #+OPTIONS: toc:nil
 #+TITLE: How to write and use curried functions
+#+author: Jason DeLaat
+#+email: jason.develops@gmail.com
   Creating curried functions is pretty straight-forward with
   pymonad. The =tools= module provides the function =curry= which
   allows you to turn any function, including python built-ins and
