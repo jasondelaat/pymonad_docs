@@ -3,8 +3,8 @@
 #+email: jason.develops@gmail.com
 * Tutorials
 * How-to Guides
-** [[./how-to/install-pymonad-with-pipenv.org][How to install pymonad with pipenv]]
-** [[file:how-to/curried-functions.org][Writing and using curried functions]]
-** [[file:how-to/function-composition.org][Function composition]]
+  - [[./how-to/install-pymonad-with-pipenv.org][How to install pymonad with pipenv]]
+  - [[file:how-to/curried-functions.org][Writing and using curried functions]]
+  - [[file:how-to/function-composition.org][Function composition]]
 * Explanations
 * Reference
