@@ -1,4 +1,4 @@
-#+TITLE: Pymonad Documentation Project v0.1.0
+#+TITLE: Pymonad Documentation Project
 #+author: Jason DeLaat
 #+email: jason.develops@gmail.com
 * Tutorials
