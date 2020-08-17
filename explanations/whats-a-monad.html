@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-08-17 Mon 11:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What's a monad?</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jason DeLaat" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel='stylesheet' type='text/css' href='./css/org.css' /><link rel='stylesheet' type='text/css' href='../css/org.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">What's a monad?</h1>
+<p>
+Note: The following explanation is based on <a href="https://bartoszmilewski.com/2016/11/21/monads-programmers-definition/">this post</a> by Bartosz
+Milewski.
+</p>
+
+<div id="outline-container-org3e94c30" class="outline-2">
+<h2 id="org3e94c30">Introduction</h2>
+<div class="outline-text-2" id="text-org3e94c30">
+<p>
+Monads are famously misunderstood. They've been likened to space
+suits, toxic waste and who knows what else. Depending on who you ask
+you might be told that monads are about:
+</p>
+
+<dl class="org-dl">
+<dt>Order of evaluation</dt><dd>Since languages that provide monads by default
+tend to be pure functional and declarative, we don't usually know
+the exact order of evaluation. Whatever else they may do, the
+main thing we use monads for, the story goes, is to enforce a
+particular order of evaluation in places where that is important.</dd>
+<dt>Side effects and IO</dt><dd>Pure functional languages ban side effects so handling
+things like mutable state, errors and IO don't work the way most
+of us are used to. Monads allow us to do side effect-like things
+in a pure functional context.</dd>
+</dl>
+
+<p>
+Monads are used for these things but that's not really what they <i>are</i>
+or what they're <i>about</i> and focusing too much on those aspects tends
+to confuse the situation. What monads actually are is deceptively
+simple: monads are function composition.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd100ddf" class="outline-2">
+<h2 id="orgd100ddf">A simple logging example</h2>
+<div class="outline-text-2" id="text-orgd100ddf">
+<p>
+At least as far as programmers need to worry about them, monads are
+basically just a type of function composition. If you understand
+how function composition works, you pretty much understand monads.
+</p>
+
+<p>
+So let's see how this works. For the purposes of explanation we need
+a way to compose functions. Pymonad has a <a href="how-to/function-composition.html">Compose construct</a> for this
+purpose but it's built on top of the Reader monad and I don't want
+to use a monad to explain monads. So we'll use this instead:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">compose</span>(f, g):
+    <span style="color: #859900;">return</span> <span style="color: #859900;">lambda</span> x: g(f(x))
+</pre>
+</div>
+
+<p>
+Many languages that have a composition operator compose functions
+right-to-left but for a named composition function I prefer the
+semantics of composing left-to-right, so the above function
+evaluates <code>f</code> first and then feeds the result to <code>g</code>. 
+</p>
+
+<p>
+Alright, so suppose we're writing some program and we have these two
+functions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">add_7</span>(x):
+    <span style="color: #859900;">return</span> x + 7
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">mul_5</span>(x):
+    <span style="color: #859900;">return</span> x * 5
+</pre>
+</div>
+
+<p>
+And somewhere in our program we commpose those two functions like
+so:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #6c71c4;">composed_arithmetic</span> = compose(add_7, mul_5)
+<span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">... more code ...</span>
+<span style="color: #6c71c4;">some_var</span> = composed_arithmetic(6) <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">result: 65</span>
+</pre>
+</div>
+
+<p>
+So far so good. The problem comes when we decide it would be great
+if our functions created a log. We don't want to mutate global state
+and it's not really the job of our functions to know anything about
+the <i>entire</i> log so we just have our functions return a string along
+with the result that we were returning before.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">add_7</span>(x):
+    <span style="color: #859900;">return</span> x + 7, <span style="color: #2aa198;">'Adding 7 to input {}\n'</span>.<span style="color: #6c71c4;">format</span>(x)
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">mul_5</span>(x):
+    <span style="color: #859900;">return</span> x * 5, <span style="color: #2aa198;">'Multiplying input {} by 5\n'</span>.<span style="color: #6c71c4;">format</span>(x)
+</pre>
+</div>
+
+<p>
+But as soon as we do that, we've broken <code>composed_arithmetic</code>.
+<code>add_7</code> is returning a tuple but <code>mul_5</code> is expecting just a
+number. Importantly: We still want to be able to compose these
+functions like we did before; the overall behaviour of the system
+should be the same just with added logging; we need to do it in a
+way that deals with the logging information. So what do we do? We
+change how composition works!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">compose_with_logging</span>(f, g):
+    <span style="color: #859900;">def</span> <span style="color: #b58900;">_compose_internal</span>(x):
+        <span style="color: #6c71c4;">fx</span>, <span style="color: #6c71c4;">f_log</span> = f(x)
+        <span style="color: #6c71c4;">gx</span>, <span style="color: #6c71c4;">g_log</span> = g(fx)
+        <span style="color: #859900;">return</span> gx, f_log + g_log
+    <span style="color: #859900;">return</span> _compose_internal
+</pre>
+</div>
+
+<p>
+And then we update the composition:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #6c71c4;">composed_arithmetic</span> = compose_with_logging(add_7, mul_5)
+<span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">... more code ...</span>
+
+<span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">This doesn't change!</span>
+<span style="color: #6c71c4;">some_var</span> = composed_arithmetic(6) <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">result: 65, "Adding 7 to input 6</span>
+                                  <span style="color: #93a1a1; font-style: italic;">#              </span><span style="color: #93a1a1; font-style: italic;">Multiplying input 13 by 5"</span>
+</pre>
+</div>
+
+<p>
+Now you can add logging to any functions you want and if you were
+composing those functions all you need to do is switch to using
+<code>compose_with_logging</code> and everything will work as expected. 
+</p>
+
+<p>
+If we must use metaphores when talking about monads then we should
+at least use one that's relevant to programming. The functions above
+return a value that we're actually interested in and some additional
+metadata. In this case the metadata is logging information, in other
+cases it might be error states, mutable state, or something
+else. But in all cases adding metadata to the return types of our
+functions breaks composition forcing us to <i>redefine</i> composition in a
+way that takes the metadata into account.
+</p>
+
+<p>
+That's a monad.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2be593b" class="outline-2">
+<h2 id="org2be593b">All monad types are tuples in disguise</h2>
+<div class="outline-text-2" id="text-org2be593b">
+<p>
+The above example is a simplified version of the Writer monad. In a
+sense, the monad's type is the tuple returned from each of the
+functions: (int, string). 
+</p>
+
+<p>
+It turns out that <i>all</i> monads can actually be expressed in the
+general form (a, m), where <i>a</i> is the return value that you're
+interested in and <i>m</i> is the 'metadata' which the monad deals
+with. If you've played around with monads before though you'll know
+that they don't always look like tuples. So what's going on?
+</p>
+
+<p>
+The answer has to do with algebraic data types and how they can be
+manipulated into equivalent forms. That's beyond the scope of this
+article, but a quick example should give you a general idea. 
+</p>
+
+<p>
+Let's look at simple error handling. Our metadata will be booleans:
+True indicates that the returned value is valid and can be used in
+further computations; False indicates the value is invalid and
+should be ignored.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">add_7</span>(x):
+    <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">Errors won't happen in this function so we can always return a</span>
+    <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">valid result.</span>
+    <span style="color: #859900;">return</span> (x + 7, <span style="color: #268bd2;">True</span>)
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">not_zero</span>(x):
+    <span style="color: #859900;">if</span> x == 0:
+        <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">It's an error if we get the value zero</span>
+        <span style="color: #859900;">return</span> (<span style="color: #268bd2;">None</span>, <span style="color: #268bd2;">False</span>)
+    <span style="color: #859900;">else</span>:
+        <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">But any other number is OK, we just pass it on.</span>
+        <span style="color: #859900;">return</span> (x, <span style="color: #268bd2;">True</span>)
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">compose_with_errors</span>(f, g):
+    <span style="color: #859900;">def</span> <span style="color: #b58900;">_compose_internal</span>(x):
+        <span style="color: #6c71c4;">fx</span>, <span style="color: #6c71c4;">f_err</span> = f(x)
+        <span style="color: #6c71c4;">gx</span>, <span style="color: #6c71c4;">g_err</span> = g(fx)
+        <span style="color: #859900;">return</span> (gx, f_err <span style="color: #859900;">and</span> g_err)
+    <span style="color: #859900;">return</span> _compose_internal
+</pre>
+</div>
+
+<p>
+This works much like the logging example but instead of
+concatenating logs we use a logical <code>and</code> to combine error
+states. If either input function fails then the whole thing
+fails.
+</p>
+
+<p>
+But having to construct tuples all the time is error prone and has
+little semantic value. Instead we can implement functions to do it
+for us.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">Result</span>(x):
+    <span style="color: #859900;">return</span> (x, <span style="color: #268bd2;">True</span>)
+
+<span style="color: #6c71c4;">Error</span> = (<span style="color: #268bd2;">None</span>, <span style="color: #268bd2;">False</span>)
+</pre>
+</div>
+
+<p>
+Since the semantics of errors is that we ignore the returned value,
+one <code>Error</code> is just as good as any other and the value doesn't
+matter. That's why we don't need an <code>Error</code> function but can just
+use a constant. Now we can write our functions like so:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">add_7</span>(x):
+    <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">Errors won't happen in this function so we can always return a</span>
+    <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">valid result.</span>
+    <span style="color: #859900;">return</span> Result(x + 7)
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">not_zero</span>(x):
+    <span style="color: #859900;">if</span> x == 0:
+        <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">It's an error if we get the value zero</span>
+        <span style="color: #859900;">return</span> Error
+    <span style="color: #859900;">else</span>:
+        <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">But any other number is OK, we just pass it on.</span>
+        <span style="color: #859900;">return</span> Result(x)
+</pre>
+</div>
+
+<p>
+The <code>compose_with_errors</code> function still works exactly the same
+way. So even though in this version the monad values don't <i>look</i>
+like tuples, they really are in the background. The translation to
+and from a tuple representation isn't always this straight-forward
+but it is always possible.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb63a15" class="outline-2">
+<h2 id="orgdb63a15">Generalizing</h2>
+<div class="outline-text-2" id="text-orgdb63a15">
+<p>
+If you know a little bit about monads already you might be
+wondering where <code>bind</code> (the <code>&gt;&gt;=</code> operator in Haskell) is in all of
+this. It's actually hiding in plain sight.
+</p>
+
+<p>
+When we wrote the logging example we had to write a
+<code>compose_with_logging</code> function. When we wrote the error example we
+needed a <code>compose_with_errors</code> function. And any other monads we
+wanted to implement would require their own <code>compose_with_*</code>
+function as well.
+</p>
+
+<p>
+If we change <code>add_7</code> and <code>mul_5</code> to error tracking functions we
+also have to change <code>composed_arithmetic</code> to call the correct
+compose function. That's kind of a pain. It would be nice if we
+could change which <i>type</i> of composition we're doing without having
+to change every call to a composition function.
+</p>
+
+<p>
+Let's go back to logging for a moment. Instead of having the
+functions return a tuple, let's have them return a <code>Logging</code>
+object.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">class</span> <span style="color: #268bd2;">Logging</span>:
+    <span style="color: #859900;">def</span> <span style="color: #b58900;">__init__</span>(<span style="color: #859900;">self</span>, result, message):
+        <span style="color: #859900;">self</span>.result = result
+        <span style="color: #859900;">self</span>.message = message
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">add_7</span>(x):
+    <span style="color: #859900;">return</span> Logging(x + 7, <span style="color: #2aa198;">'Adding 7 to input {}\n'</span>.<span style="color: #6c71c4;">format</span>(x))
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">mul_5</span>(x):
+    <span style="color: #859900;">return</span> Logging(x * 5, <span style="color: #2aa198;">'Multiplying input {} by 5\n'</span>.<span style="color: #6c71c4;">format</span>(x))
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">monad_compose</span>(f, g):
+    <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">How do we define this?</span>
+    <span style="color: #859900;">pass</span>
+
+<span style="color: #6c71c4;">composed_arithmetic</span> = monad_compose(add_7, mull_5)
+<span style="color: #6c71c4;">some_var</span> = composed_arithmetic(6)
+</pre>
+</div>
+
+<p>
+How do we define composition for functions of this type? The
+resulting function has to take an integer as input and should return
+a <code>Logging</code> object as output. The input needs to be passed to the
+first function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">def</span> <span style="color: #b58900;">monad_compose</span>(f, g):
+    <span style="color: #859900;">return</span> <span style="color: #859900;">lambda</span> x: f(x) <span style="color: #93a1a1; font-style: italic;">#</span><span style="color: #93a1a1; font-style: italic;">...then what?</span>
+</pre>
+</div>
+
+<p>
+Next we need access to the result and message returned by <code>f</code> so we
+can apply it to <code>g</code>. Since we need access to the internals of a
+<code>Logging</code> object let's make it a method:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900;">class</span> <span style="color: #268bd2;">Logging</span>:
+    <span style="color: #859900;">def</span> <span style="color: #b58900;">__init__</span>(<span style="color: #859900;">self</span>, result, message):
+        <span style="color: #859900;">self</span>.result = result
+        <span style="color: #859900;">self</span>.message = message
+
+    <span style="color: #859900;">def</span> <span style="color: #b58900;">bind</span>(<span style="color: #859900;">self</span>, g):
+        <span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">The infamous bind</span>
+        <span style="color: #6c71c4;">gx</span>, <span style="color: #6c71c4;">g_log</span> = g(<span style="color: #859900;">self</span>.result)
+        <span style="color: #859900;">return</span> Logging(gx, <span style="color: #859900;">self</span>.message + g_log)
+
+<span style="color: #859900;">def</span> <span style="color: #b58900;">monad_compose</span>(f, g):
+    <span style="color: #859900;">return</span> <span style="color: #859900;">lambda</span> x: f(x).bind(g)
+</pre>
+</div>
+
+<p>
+Now we've encapsulated the logic of dealing with logs into the
+logging object itself and made <code>monad_compose</code><sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> entirely general. If we
+want to change the functions to deal with errors we can create an
+Error class with it's own <code>bind</code> method to handle things correctly
+and <code>monad_compose</code> will continue to work properly.
+</p>
+
+<p>
+Many explanation of monads start by trying to explain <code>bind</code> and
+that's where a lot of confusion creeps in. It has a strange type
+signature and it's hard to explain exactly what <code>bind</code> does since
+it does something different for every single monad. But actually,
+it's not so mysterious: <code>bind</code> exists as a consequence of
+generalizing <code>monad_compose</code> and it's simply where we encapsulate
+the composition logic for the type.
+</p>
+
+<p>
+The reason so many explanations of monads start by trying to
+explain <code>bind</code> is because once you have <code>bind</code> it's often
+convenient to just use it directly instead of bothering with
+<code>monad_compose</code>.
+</p>
+
+<p>
+Once we've got that <code>Logging</code> class we can do something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #6c71c4;">some_var</span> = (
+    Logging(6, <span style="color: #2aa198;">''</span>)
+    .bind(add_7)
+    .bind(mul_5)
+)
+</pre>
+</div>
+
+<p>
+<code>monad_compose</code> creates a new function that you can use repeatedly
+but even that can be done with bind:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #6c71c4;">composed_arithmetic</span> = <span style="color: #859900;">lambda</span> x: Logging(x, <span style="color: #2aa198;">''</span>).bind(add_7).bind(mul_5)
+
+<span style="color: #93a1a1; font-style: italic;"># </span><span style="color: #93a1a1; font-style: italic;">Or</span>
+<span style="color: #859900;">def</span> <span style="color: #b58900;">composed_arithmetic</span>(x):
+    <span style="color: #859900;">return</span> (
+        Logging(x, <span style="color: #2aa198;">''</span>)
+        .bind(add_7)
+        .bind(mul_5)
+    )
+</pre>
+</div>
+
+<p>
+So <code>bind</code> is generally more useful than <code>monad_compose</code> but
+<code>monad_compose</code> makes it clearer what the purpose of a monad
+actually is: function composition.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara">In pymonad.tools
+this function is called <code>kleisli_compose</code>.</div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Jason DeLaat</p>
+<p class="date">Created: 2020-08-17 Mon 11:35</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

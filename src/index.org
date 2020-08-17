@@ -7,4 +7,5 @@
   - [[file:how-to/curried-functions.org][Writing and using curried functions]]
   - [[file:how-to/function-composition.org][Function composition]]
 * Explanations
+  - [[file:explanations/whats-a-monad.org][What's a monad?]]
 * Reference
