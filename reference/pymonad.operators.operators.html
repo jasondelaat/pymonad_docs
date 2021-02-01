@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pymonad.operators.operators</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pymonad.html"><font color="#ffffff">pymonad</font></a>.<a href="pymonad.operators.html"><font color="#ffffff">operators</font></a>.operators</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/home/jason/Files/projects/pymonad/pymonad/operators/operators.py">/usr/home/jason/Files/projects/pymonad/pymonad/operators/operators.py</a></font></td></tr></table>
+    <p><tt>Defines&nbsp;the&nbsp;monad&nbsp;operators.<br>
+&nbsp;<br>
+The&nbsp;<a href="#MonadOperators">MonadOperators</a>&nbsp;class&nbsp;allows&nbsp;users&nbsp;to&nbsp;create&nbsp;a&nbsp;monad&nbsp;alias&nbsp;for<br>
+any&nbsp;monad&nbsp;class&nbsp;with&nbsp;the&nbsp;operators&nbsp;__and__,&nbsp;__rmul__,&nbsp;and<br>
+__rshift__&nbsp;defined.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;class&nbsp;MaybeOp(<a href="#MonadOperators">MonadOperators</a>,&nbsp;Maybe):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass<br>
+&nbsp;<br>
+Nothing&nbsp;extra&nbsp;needs&nbsp;to&nbsp;be&nbsp;implemented&nbsp;to&nbsp;get&nbsp;the&nbsp;correct&nbsp;behaviour<br>
+unless&nbsp;the&nbsp;monad&nbsp;has&nbsp;multiple&nbsp;'constructors'&nbsp;such&nbsp;as&nbsp;Just&nbsp;and<br>
+Nothing.&nbsp;In&nbsp;this&nbsp;case,&nbsp;we&nbsp;need&nbsp;to&nbsp;override&nbsp;those&nbsp;constructors&nbsp;as&nbsp;well:<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;Just(value):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;MaybeOp(value,&nbsp;True)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Nothing&nbsp;=&nbsp;MaybeOp(None,&nbsp;False)</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pymonad.html">pymonad</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="pymonad.monad.html#Monad">pymonad.monad.Monad</a>(<a href="typing.html#Generic">typing.Generic</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="pymonad.operators.operators.html#MonadOperators">MonadOperators</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MonadOperators">class <strong>MonadOperators</strong></a>(<a href="pymonad.monad.html#Monad">pymonad.monad.Monad</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#MonadOperators">MonadOperators</a>(*args,&nbsp;**kwds)<br>
+&nbsp;<br>
+Defines&nbsp;<a href="#MonadOperators">MonadOperators</a>&nbsp;class.<br>
+&nbsp;<br>
+<a href="#MonadOperators">MonadOperators</a>&nbsp;is&nbsp;a&nbsp;MonadAlias&nbsp;which&nbsp;is&nbsp;used&nbsp;to&nbsp;add&nbsp;operators&nbsp;for<br>
+map&nbsp;(*),&nbsp;amap&nbsp;(&amp;),&nbsp;and&nbsp;bind&nbsp;(&gt;&gt;)&nbsp;methods&nbsp;to&nbsp;<a href="pymonad.monad.html#Monad">Monad</a>&nbsp;classes.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="pymonad.operators.operators.html#MonadOperators">MonadOperators</a></dd>
+<dd><a href="pymonad.monad.html#Monad">pymonad.monad.Monad</a></dd>
+<dd><a href="typing.html#Generic">typing.Generic</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MonadOperators-__and__"><strong>__and__</strong></a>(self, monad_value)</dt></dl>
+
+<dl><dt><a name="MonadOperators-__rmul__"><strong>__rmul__</strong></a>(self, function)</dt></dl>
+
+<dl><dt><a name="MonadOperators-__rshift__"><strong>__rshift__</strong></a>(self, kleisli_function)</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__parameters__</strong> = ()</dl>
+
+<hr>
+Methods inherited from <a href="pymonad.monad.html#Monad">pymonad.monad.Monad</a>:<br>
+<dl><dt><a name="MonadOperators-__init__"><strong>__init__</strong></a>(self, value, monoid)</dt><dd><tt>Initializes&nbsp;the&nbsp;internal&nbsp;values&nbsp;of&nbsp;the&nbsp;monad&nbsp;instance.<br>
+&nbsp;<br>
+All&nbsp;monads&nbsp;can&nbsp;be&nbsp;expressed&nbsp;as&nbsp;a&nbsp;tuple,&nbsp;(a,&nbsp;m).&nbsp;Representing<br>
+all&nbsp;monads&nbsp;internally&nbsp;in&nbsp;this&nbsp;canonical&nbsp;form&nbsp;allows&nbsp;for&nbsp;some<br>
+interesting&nbsp;effects&nbsp;such&nbsp;as&nbsp;easily&nbsp;aliasing&nbsp;existing&nbsp;monads<br>
+instances&nbsp;and,&nbsp;if&nbsp;desired,&nbsp;adding&nbsp;operators.&nbsp;Occasionally&nbsp;it<br>
+also&nbsp;makes&nbsp;implementation&nbsp;of&nbsp;the&nbsp;monad&nbsp;methods&nbsp;itself&nbsp;easier.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;value:&nbsp;if&nbsp;we&nbsp;think&nbsp;of&nbsp;monads&nbsp;as&nbsp;storing&nbsp;some&nbsp;data&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interest&nbsp;plus&nbsp;some&nbsp;'meta&nbsp;data',&nbsp;then&nbsp;'value'&nbsp;is&nbsp;the&nbsp;data&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interest.&nbsp;Exactly&nbsp;what&nbsp;'value'&nbsp;is/means&nbsp;will&nbsp;depend&nbsp;on&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;specific&nbsp;context&nbsp;of&nbsp;the&nbsp;monad&nbsp;in&nbsp;question.<br>
+&nbsp;&nbsp;monoid:&nbsp;this&nbsp;is&nbsp;the&nbsp;'meta&nbsp;data'&nbsp;part.&nbsp;While&nbsp;implementers&nbsp;may<br>
+&nbsp;&nbsp;&nbsp;&nbsp;use&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Monoid&nbsp;class&nbsp;here&nbsp;it&nbsp;is&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;required.&nbsp;However,&nbsp;the&nbsp;value&nbsp;passed&nbsp;in&nbsp;here&nbsp;should&nbsp;be&nbsp;a&nbsp;type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;can&nbsp;be&nbsp;treated&nbsp;as&nbsp;a&nbsp;monoid,&nbsp;such&nbsp;as&nbsp;integers;&nbsp;strings;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lists;&nbsp;etc.,&nbsp;in&nbsp;order&nbsp;to&nbsp;ensure&nbsp;that&nbsp;the&nbsp;monad&nbsp;laws&nbsp;are<br>
+&nbsp;&nbsp;&nbsp;&nbsp;obeyed.&nbsp;This&nbsp;is&nbsp;not&nbsp;enforced&nbsp;but&nbsp;it&nbsp;will&nbsp;result&nbsp;in&nbsp;an<br>
+&nbsp;&nbsp;&nbsp;&nbsp;incorrect&nbsp;implementation.</tt></dd></dl>
+
+<dl><dt><a name="MonadOperators-amap"><strong>amap</strong></a>(self: 'Monad[Callable[[S], T]]', monad_value: 'Monad[S]') -&gt; 'Monad[T]'</dt><dd><tt>Applies&nbsp;the&nbsp;function&nbsp;stored&nbsp;in&nbsp;the&nbsp;functor&nbsp;to&nbsp;the&nbsp;value&nbsp;inside&nbsp;'functor_value'<br>
+returning&nbsp;a&nbsp;new&nbsp;functor&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="MonadOperators-bind"><strong>bind</strong></a>(self: 'Monad[S]', kleisli_function: Callable[[~S], ForwardRef('Monad[T]')]) -&gt; 'Monad[T]'</dt><dd><tt>Applies&nbsp;'function'&nbsp;to&nbsp;the&nbsp;result&nbsp;of&nbsp;a&nbsp;previous&nbsp;monadic&nbsp;calculation.</tt></dd></dl>
+
+<dl><dt><a name="MonadOperators-join"><strong>join</strong></a>(self: 'Monad[Monad[T]]') -&gt; 'Monad[T]'</dt><dd><tt>Unpacks&nbsp;a&nbsp;nested&nbsp;monad&nbsp;instance&nbsp;one&nbsp;level.</tt></dd></dl>
+
+<dl><dt><a name="MonadOperators-map"><strong>map</strong></a>(self: 'Monad[S]', function: Callable[[~S], ~T]) -&gt; 'Monad[T]'</dt><dd><tt>Applies&nbsp;'function'&nbsp;to&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;functor&nbsp;and&nbsp;returns&nbsp;a&nbsp;new&nbsp;functor&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="MonadOperators-then"><strong>then</strong></a>(self: 'Monad[S]', function: Union[Callable[[~S], ~T], Callable[[~S], ForwardRef('Monad[T]')]]) -&gt; 'Monad[T]'</dt><dd><tt>Combines&nbsp;the&nbsp;functionality&nbsp;of&nbsp;bind&nbsp;and&nbsp;fmap.<br>
+&nbsp;<br>
+Instead&nbsp;of&nbsp;worrying&nbsp;about&nbsp;whether&nbsp;to&nbsp;use&nbsp;bind&nbsp;or&nbsp;fmap,<br>
+users&nbsp;can&nbsp;just&nbsp;use&nbsp;the&nbsp;then&nbsp;method&nbsp;to&nbsp;chain&nbsp;function<br>
+calls&nbsp;together.&nbsp;The&nbsp;then&nbsp;method&nbsp;uses&nbsp;attempts&nbsp;to&nbsp;use<br>
+bind&nbsp;first&nbsp;and&nbsp;if&nbsp;that&nbsp;doesn't&nbsp;work,&nbsp;uses&nbsp;fmap<br>
+instead.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;function:&nbsp;A&nbsp;python&nbsp;function&nbsp;or&nbsp;lambda&nbsp;expression<br>
+&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;returns&nbsp;either&nbsp;a&nbsp;build-in&nbsp;type&nbsp;(int,&nbsp;string,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;etc.)&nbsp;or&nbsp;an&nbsp;appropriate&nbsp;monad&nbsp;type&nbsp;(Maybe,&nbsp;Either,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;etc.)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;A&nbsp;monad&nbsp;value&nbsp;of&nbsp;the&nbsp;same&nbsp;type&nbsp;as&nbsp;'self'</tt></dd></dl>
+
+<hr>
+Class methods inherited from <a href="pymonad.monad.html#Monad">pymonad.monad.Monad</a>:<br>
+<dl><dt><a name="MonadOperators-apply"><strong>apply</strong></a>(function)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Supplies&nbsp;a&nbsp;cleaner&nbsp;interface&nbsp;for&nbsp;applicative&nbsp;functor/amap&nbsp;usage.<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;@curry(2)<br>
+&nbsp;&nbsp;def&nbsp;add(a,&nbsp;b):&nbsp;return&nbsp;a&nbsp;+&nbsp;b<br>
+&nbsp;<br>
+&nbsp;&nbsp;x&nbsp;=&nbsp;Just(1)<br>
+&nbsp;&nbsp;y&nbsp;=&nbsp;Just(2)<br>
+&nbsp;<br>
+&nbsp;&nbsp;(Maybe.<a href="#MonadOperators-apply">apply</a>(add)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.to_arguments(x,&nbsp;y)<br>
+&nbsp;&nbsp;)&nbsp;#&nbsp;results&nbsp;in&nbsp;Just(3)<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;function:&nbsp;A&nbsp;regular&nbsp;function&nbsp;which&nbsp;returns&nbsp;non-monadic&nbsp;values.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;A&nbsp;monad&nbsp;object&nbsp;based&nbsp;on&nbsp;the&nbsp;input&nbsp;class&nbsp;with&nbsp;the&nbsp;wrapped<br>
+&nbsp;&nbsp;function&nbsp;and&nbsp;a&nbsp;new&nbsp;method,&nbsp;'to_arguments'&nbsp;which&nbsp;will&nbsp;apply<br>
+&nbsp;&nbsp;the&nbsp;function.</tt></dd></dl>
+
+<dl><dt><a name="MonadOperators-insert"><strong>insert</strong></a>(value: ~T) -&gt; 'Monad[T]'<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Returns&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Functor&nbsp;with&nbsp;'value'&nbsp;in&nbsp;a&nbsp;minimum&nbsp;context.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="pymonad.monad.html#Monad">pymonad.monad.Monad</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="pymonad.monad.html#Monad">pymonad.monad.Monad</a>:<br>
+<dl><dt><strong>__orig_bases__</strong> = (typing.Generic[~T],)</dl>
+
+<hr>
+Class methods inherited from <a href="typing.html#Generic">typing.Generic</a>:<br>
+<dl><dt><a name="MonadOperators-__class_getitem__"><strong>__class_getitem__</strong></a>(params)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt></dl>
+
+<dl><dt><a name="MonadOperators-__init_subclass__"><strong>__init_subclass__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Static methods inherited from <a href="typing.html#Generic">typing.Generic</a>:<br>
+<dl><dt><a name="MonadOperators-__new__"><strong>__new__</strong></a>(cls, *args, **kwds)</dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pymonad.promise</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pymonad.html"><font color="#ffffff">pymonad</font></a>.promise</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/home/jason/Files/projects/pymonad/pymonad/promise.py">/usr/home/jason/Files/projects/pymonad/pymonad/promise.py</a></font></td></tr></table>
+    <p><tt>Implements&nbsp;the&nbsp;Promise&nbsp;monad&nbsp;for&nbsp;ordering&nbsp;concurrent&nbsp;computations.<br>
+&nbsp;<br>
+The&nbsp;Promise&nbsp;monad&nbsp;is&nbsp;based&nbsp;on&nbsp;(and&nbsp;named&nbsp;after)&nbsp;Javascript's&nbsp;Promise<br>
+objects&nbsp;and&nbsp;function&nbsp;in&nbsp;a&nbsp;similar&nbsp;way.&nbsp;Promises&nbsp;take&nbsp;asynchronous<br>
+computations&nbsp;and&nbsp;ensure&nbsp;the&nbsp;ordering&nbsp;of&nbsp;execution.&nbsp;In&nbsp;addition&nbsp;to&nbsp;the<br>
+standard&nbsp;operations&nbsp;on&nbsp;monads,&nbsp;Promises&nbsp;also&nbsp;provide&nbsp;a&nbsp;'catch'&nbsp;method<br>
+which&nbsp;allows&nbsp;for&nbsp;recovery&nbsp;from&nbsp;errors.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;asyncio<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;pymonad.promise&nbsp;import&nbsp;Promise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;pymonad.tools&nbsp;import&nbsp;curry<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@curry(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;div(y,&nbsp;x):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;x&nbsp;/&nbsp;y<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;long_id(x):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;asyncio.sleep(1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;await&nbsp;<a href="#-Promise">Promise</a>(lambda&nbsp;resolve,&nbsp;reject:&nbsp;resolve(x))<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;main():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&nbsp;(Promise.insert(1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(long_id))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;=&nbsp;(Promise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.insert(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(long_id)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(div(0))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Raises&nbsp;an&nbsp;error...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.catch(lambda&nbsp;error:&nbsp;2))&nbsp;#&nbsp;...which&nbsp;is&nbsp;dealth&nbsp;with&nbsp;here.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;Promise.apply(add)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.to_arguments(x,&nbsp;y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.catch(lambda&nbsp;error:&nbsp;'Recovering...')&nbsp;#&nbsp;This&nbsp;is&nbsp;ignored<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;because&nbsp;the&nbsp;previous<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;catch&nbsp;already&nbsp;dealt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;with&nbsp;the&nbsp;error.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;asyncio.run(main())<br>
+&nbsp;<br>
+The&nbsp;above&nbsp;example&nbsp;will&nbsp;print&nbsp;the&nbsp;value&nbsp;'3'&nbsp;to&nbsp;the&nbsp;screen.&nbsp;The<br>
+'long_id'&nbsp;coroutine&nbsp;is&nbsp;a&nbsp;stand-in&nbsp;for&nbsp;any&nbsp;async&nbsp;operation&nbsp;that&nbsp;may<br>
+take&nbsp;some&nbsp;amount&nbsp;of&nbsp;time.&nbsp;When&nbsp;we&nbsp;await&nbsp;the&nbsp;Promise&nbsp;inside&nbsp;the&nbsp;print()<br>
+call&nbsp;it&nbsp;waits&nbsp;for&nbsp;both&nbsp;arguments&nbsp;to&nbsp;complete&nbsp;before&nbsp;calling&nbsp;'add'&nbsp;with<br>
+the&nbsp;results.&nbsp;If&nbsp;the&nbsp;first&nbsp;call&nbsp;to&nbsp;'catch'&nbsp;were&nbsp;removed&nbsp;then&nbsp;the&nbsp;error<br>
+would&nbsp;propagate&nbsp;and&nbsp;be&nbsp;caught&nbsp;by&nbsp;the&nbsp;second&nbsp;call.&nbsp;The&nbsp;program&nbsp;would<br>
+then&nbsp;print&nbsp;the&nbsp;string&nbsp;'Recovering...'&nbsp;instead&nbsp;of&nbsp;'3'.<br>
+&nbsp;<br>
+You&nbsp;can&nbsp;also&nbsp;create&nbsp;a&nbsp;Promise&nbsp;by&nbsp;passing&nbsp;a&nbsp;function&nbsp;directly.&nbsp;This<br>
+function&nbsp;takes&nbsp;two&nbsp;callbacks&nbsp;as&nbsp;input&nbsp;to&nbsp;signal&nbsp;a&nbsp;successful<br>
+computation&nbsp;or&nbsp;a&nbsp;failed&nbsp;one.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;asyncio<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;main():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(await&nbsp;<a href="#-Promise">Promise</a>(lambda&nbsp;resolve,&nbsp;reject:&nbsp;resolve(2)))<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;asyncio.run(main())<br>
+&nbsp;<br>
+The&nbsp;'resolve'&nbsp;callback&nbsp;can&nbsp;take&nbsp;a&nbsp;value&nbsp;of&nbsp;any&nbsp;type&nbsp;but&nbsp;the&nbsp;'reject'<br>
+callback&nbsp;should&nbsp;always&nbsp;take&nbsp;an&nbsp;Exception&nbsp;as&nbsp;its&nbsp;argument.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;asyncio<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;main():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(await&nbsp;<a href="#-Promise">Promise</a>(lambda&nbsp;resolve,&nbsp;reject:&nbsp;reject(IndexError())))<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;asyncio.run(main())<br>
+&nbsp;<br>
+When&nbsp;run,&nbsp;this&nbsp;program&nbsp;will&nbsp;crash&nbsp;having&nbsp;raised&nbsp;the&nbsp;IndexError&nbsp;without<br>
+catching&nbsp;it.&nbsp;Similarly,&nbsp;the&nbsp;catch&nbsp;method&nbsp;takes&nbsp;a&nbsp;function&nbsp;which<br>
+accepts&nbsp;an&nbsp;Exception&nbsp;as&nbsp;it's&nbsp;input.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;asyncio<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;main():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(await&nbsp;<a href="#-Promise">Promise</a>(lambda&nbsp;resolve,&nbsp;reject:&nbsp;reject(IndexError()))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.catch(lambda&nbsp;error:&nbsp;print(type(error)))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;asyncio.run(main())<br>
+&nbsp;<br>
+This&nbsp;program&nbsp;prints&nbsp;"&lt;type&nbsp;'IndexError'&gt;"&nbsp;as&nbsp;its&nbsp;output.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pymonad.html">pymonad</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-Promise"><strong>Promise</strong></a>(function: Callable[[Callable[[~S], ~T], Callable[[Exception], ~T]], ~T]) -&gt; pymonad.promise._Promise[~T]</dt><dd><tt>Constructs&nbsp;a&nbsp;Promise&nbsp;object&nbsp;for&nbsp;ordering&nbsp;concurrent&nbsp;computations.<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;<a href="#-Promise">Promise</a>(lambda&nbsp;resolve,&nbsp;reject:&nbsp;resolve('any&nbsp;value'))<br>
+&nbsp;<br>
+&nbsp;&nbsp;def&nbsp;some_computation(resolve,&nbsp;reject):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;True:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;resolve(10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject(TypeError('Fake&nbsp;error.'))&nbsp;#&nbsp;doesn't&nbsp;need&nbsp;to&nbsp;be&nbsp;returned<br>
+&nbsp;&nbsp;<a href="#-Promise">Promise</a>(some_computation)<br>
+&nbsp;<br>
+Arguments:<br>
+&nbsp;&nbsp;function:&nbsp;a&nbsp;function&nbsp;taking&nbsp;two&nbsp;callback&nbsp;typically&nbsp;called<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'resolve'&nbsp;and&nbsp;'reject'.&nbsp;When&nbsp;the&nbsp;computation&nbsp;is&nbsp;successful&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;should&nbsp;be&nbsp;returned&nbsp;by&nbsp;calling&nbsp;resolve&nbsp;with&nbsp;the&nbsp;result.&nbsp;If<br>
+&nbsp;&nbsp;&nbsp;&nbsp;there&nbsp;is&nbsp;an&nbsp;error,&nbsp;call&nbsp;'reject'&nbsp;with&nbsp;an&nbsp;instance&nbsp;of&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Exception&nbsp;class.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;A&nbsp;new&nbsp;Promise&nbsp;object.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Callable</strong> = typing.Callable<br>
+<strong>PromiseFunction</strong> = typing.Callable[[typing.Callable[[~S], ~T], typing.Callable[[Exception], ~T]], ~T]<br>
+<strong>RejectFunction</strong> = typing.Callable[[Exception], ~T]<br>
+<strong>ResolveFunction</strong> = typing.Callable[[~S], ~T]<br>
+<strong>S</strong> = ~S<br>
+<strong>T</strong> = ~T<br>
+<strong>Union</strong> = typing.Union</td></tr></table>
+</body></html>

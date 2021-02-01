@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pymonad.monoid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pymonad.html"><font color="#ffffff">pymonad</font></a>.monoid</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/home/jason/Files/projects/pymonad/pymonad/monoid.py">/usr/home/jason/Files/projects/pymonad/pymonad/monoid.py</a></font></td></tr></table>
+    <p><tt><a href="#Monoid">Monoid</a>&nbsp;Implementation.<br>
+&nbsp;<br>
+A&nbsp;monoid&nbsp;is&nbsp;an&nbsp;algebraic&nbsp;structure&nbsp;consisting&nbsp;of&nbsp;a&nbsp;set&nbsp;of&nbsp;objects,&nbsp;S,<br>
+and&nbsp;an&nbsp;operation&nbsp;usually&nbsp;denoted&nbsp;as&nbsp;'+'&nbsp;which&nbsp;obeys&nbsp;the&nbsp;following<br>
+rules:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;Closure:&nbsp;If&nbsp;'a'&nbsp;and&nbsp;'b'&nbsp;are&nbsp;in&nbsp;S,&nbsp;then&nbsp;'a&nbsp;+&nbsp;b'&nbsp;is&nbsp;also&nbsp;in&nbsp;S.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;Identity:&nbsp;There&nbsp;exists&nbsp;an&nbsp;element&nbsp;in&nbsp;S&nbsp;(denoted&nbsp;0)&nbsp;such&nbsp;that<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;+&nbsp;0&nbsp;=&nbsp;a&nbsp;=&nbsp;0&nbsp;+&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3.&nbsp;Associativity:&nbsp;(a&nbsp;+&nbsp;b)&nbsp;+&nbsp;c&nbsp;=&nbsp;a&nbsp;+&nbsp;(b&nbsp;+&nbsp;c)<br>
+&nbsp;<br>
+The&nbsp;monoid&nbsp;module&nbsp;provides&nbsp;a&nbsp;generic&nbsp;zero/identity&nbsp;element&nbsp;called<br>
+IDENTITY.<br>
+&nbsp;<br>
+<a href="#Monoid">Monoid</a>&nbsp;addition&nbsp;with&nbsp;IDENTITY&nbsp;simply&nbsp;always&nbsp;returns&nbsp;the&nbsp;other&nbsp;element<br>
+regardless&nbsp;of&nbsp;type.<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IDENTITY&nbsp;==&nbsp;IDENTITY&nbsp;#&nbsp;True.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IDENTITY&nbsp;+&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;10<br>
+&nbsp;&nbsp;&nbsp;&nbsp;'hello'&nbsp;+&nbsp;IDENTITY&nbsp;#&nbsp;'hello'</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="typing.html#Generic">typing.Generic</a>(<a href="builtins.html#object">builtins.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="pymonad.monoid.html#Monoid">Monoid</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Monoid">class <strong>Monoid</strong></a>(<a href="typing.html#Generic">typing.Generic</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Monoid">Monoid</a>(*args,&nbsp;**kwds)<br>
+&nbsp;<br>
+Base&nbsp;class&nbsp;for&nbsp;<a href="#Monoid">Monoid</a>&nbsp;instances.<br>
+&nbsp;<br>
+To&nbsp;implement&nbsp;a&nbsp;monoid&nbsp;instance,&nbsp;create&nbsp;a&nbsp;sub-class&nbsp;of&nbsp;<a href="#Monoid">Monoid</a>&nbsp;and<br>
+override&nbsp;the&nbsp;identity_element&nbsp;and&nbsp;addition_operation&nbsp;methods<br>
+ensuring&nbsp;that&nbsp;the&nbsp;closure,&nbsp;identity,&nbsp;and&nbsp;associativity&nbsp;laws&nbsp;hold.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="pymonad.monoid.html#Monoid">Monoid</a></dd>
+<dd><a href="typing.html#Generic">typing.Generic</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Monoid-__add__"><strong>__add__</strong></a>(self: Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')], other: Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')]) -&gt; Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')]</dt></dl>
+
+<dl><dt><a name="Monoid-__eq__"><strong>__eq__</strong></a>(self: Union[ForwardRef('_MonoidIdentity'), ForwardRef('Monoid[T]')], other: Union[ForwardRef('_MonoidIdentity'), ForwardRef('Monoid[T]')]) -&gt; bool</dt><dd><tt>Return&nbsp;self==value.</tt></dd></dl>
+
+<dl><dt><a name="Monoid-__init__"><strong>__init__</strong></a>(self, value: ~T) -&gt; None</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="Monoid-addition_operation"><strong>addition_operation</strong></a>(self: Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')], other: Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')]) -&gt; Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')]</dt><dd><tt>Defines&nbsp;how&nbsp;monoid&nbsp;values&nbsp;are&nbsp;added&nbsp;together.<br>
+&nbsp;<br>
+<a href="#Monoid-addition_operation">addition_operation</a>()&nbsp;method&nbsp;is&nbsp;automatically&nbsp;called&nbsp;by<br>
+<a href="#Monoid-__add__">__add__</a>()&nbsp;so&nbsp;monoid&nbsp;values&nbsp;are&nbsp;typically&nbsp;combined&nbsp;using&nbsp;the&nbsp;+<br>
+operator&nbsp;and&nbsp;not&nbsp;<a href="#Monoid-addition_operation">addition_operation</a>()&nbsp;directly.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;must&nbsp;be&nbsp;overridden&nbsp;in&nbsp;subclasses&nbsp;of&nbsp;<a href="#Monoid">Monoid</a>.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;other:&nbsp;a&nbsp;monoid&nbsp;value&nbsp;of&nbsp;the&nbsp;same&nbsp;type&nbsp;as&nbsp;self.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;Another&nbsp;monoid&nbsp;value&nbsp;of&nbsp;the&nbsp;same&nbsp;type&nbsp;as&nbsp;self&nbsp;and&nbsp;other.</tt></dd></dl>
+
+<hr>
+Static methods defined here:<br>
+<dl><dt><a name="Monoid-identity_element"><strong>identity_element</strong></a>() -&gt; 'Monoid[Any]'</dt><dd><tt>Returns&nbsp;the&nbsp;identity&nbsp;value&nbsp;for&nbsp;the&nbsp;monoid&nbsp;type.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;must&nbsp;be&nbsp;overridden&nbsp;in&nbsp;subclasses&nbsp;of&nbsp;<a href="#Monoid">Monoid</a>.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__hash__</strong> = None</dl>
+
+<dl><dt><strong>__orig_bases__</strong> = (typing.Generic[~T],)</dl>
+
+<dl><dt><strong>__parameters__</strong> = (~T,)</dl>
+
+<hr>
+Class methods inherited from <a href="typing.html#Generic">typing.Generic</a>:<br>
+<dl><dt><a name="Monoid-__class_getitem__"><strong>__class_getitem__</strong></a>(params)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt></dl>
+
+<dl><dt><a name="Monoid-__init_subclass__"><strong>__init_subclass__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</tt></dd></dl>
+
+<hr>
+Static methods inherited from <a href="typing.html#Generic">typing.Generic</a>:<br>
+<dl><dt><a name="Monoid-__new__"><strong>__new__</strong></a>(cls, *args, **kwds)</dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-mconcat"><strong>mconcat</strong></a>(monoid_list: List[Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')]]) -&gt; Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')]</dt><dd><tt>Takes&nbsp;a&nbsp;list&nbsp;of&nbsp;monoid&nbsp;values&nbsp;and&nbsp;reduces&nbsp;them&nbsp;to&nbsp;a&nbsp;single&nbsp;value<br>
+by&nbsp;applying&nbsp;the&nbsp;'+'&nbsp;operation&nbsp;to&nbsp;all&nbsp;elements&nbsp;of&nbsp;the&nbsp;list.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Any</strong> = typing.Any<br>
+<strong>IDENTITY</strong> = IDENTITY<br>
+<strong>List</strong> = typing.List<br>
+<strong>MonoidT</strong> = typing.Union[ForwardRef('Monoid[T]'), ForwardRef('_MonoidIdentity')]<br>
+<strong>T</strong> = ~T<br>
+<strong>Union</strong> = typing.Union</td></tr></table>
+</body></html>

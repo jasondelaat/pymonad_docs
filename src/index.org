@@ -9,3 +9,4 @@
 * Explanations
   - [[file:explanations/whats-a-monad.org][What's a monad?]]
 * Reference
+  The Pymonad reference documentation can be found [[./reference/pymonad.html][here.]]

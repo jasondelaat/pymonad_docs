@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pymonad.reader</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pymonad.html"><font color="#ffffff">pymonad</font></a>.reader</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/home/jason/Files/projects/pymonad/pymonad/reader.py">/usr/home/jason/Files/projects/pymonad/pymonad/reader.py</a></font></td></tr></table>
+    <p><tt>Implements&nbsp;the&nbsp;Reader&nbsp;monad.<br>
+&nbsp;<br>
+The&nbsp;Reader&nbsp;monad&nbsp;creates&nbsp;a&nbsp;context&nbsp;in&nbsp;which&nbsp;functions&nbsp;have&nbsp;access&nbsp;to<br>
+an&nbsp;additional&nbsp;read-only&nbsp;input.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pymonad.html">pymonad</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-Compose"><strong>Compose</strong></a>(function: Callable[[~R], ~T]) -&gt; pymonad.reader._Reader[~R, ~T]</dt><dd><tt>Creates&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Compose&nbsp;monad.<br>
+&nbsp;<br>
+Compose&nbsp;is&nbsp;basically&nbsp;an&nbsp;alias&nbsp;for&nbsp;the&nbsp;Reader&nbsp;monad&nbsp;except&nbsp;with&nbsp;the<br>
+insert&nbsp;and&nbsp;apply&nbsp;methods&nbsp;removed.&nbsp;It's&nbsp;purpose&nbsp;is&nbsp;simply&nbsp;to<br>
+provide&nbsp;a&nbsp;semantically&nbsp;meaningful&nbsp;monad&nbsp;instance&nbsp;to&nbsp;be&nbsp;used<br>
+specifically&nbsp;for&nbsp;the&nbsp;purpose&nbsp;of&nbsp;function&nbsp;composition.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;inc(x):&nbsp;return&nbsp;x&nbsp;+&nbsp;1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;dec(x):&nbsp;return&nbsp;x&nbsp;-&nbsp;1<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;convoluted_inc_twice&nbsp;=&nbsp;(<a href="#-Compose">Compose</a>(inc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(inc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(inc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(dec))<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;convoluted_inc_twice(0)&nbsp;#&nbsp;Result:&nbsp;2<br>
+&nbsp;<br>
+Technically,&nbsp;'convoluted_inc_twice'&nbsp;is&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Reader<br>
+monad&nbsp;but&nbsp;since&nbsp;Reader&nbsp;defines&nbsp;the&nbsp;__call__&nbsp;method,&nbsp;we&nbsp;can&nbsp;treat<br>
+it&nbsp;just&nbsp;like&nbsp;a&nbsp;function&nbsp;for&nbsp;all&nbsp;intents&nbsp;and&nbsp;purposes.&nbsp;The&nbsp;Compose<br>
+monad&nbsp;composes&nbsp;functions&nbsp;forward.&nbsp;In&nbsp;the&nbsp;example,&nbsp;the&nbsp;three&nbsp;'inc'<br>
+operations&nbsp;happen&nbsp;first&nbsp;and&nbsp;then&nbsp;the&nbsp;'dec'&nbsp;and&nbsp;not&nbsp;vice-versa.</tt></dd></dl>
+ <dl><dt><a name="-Pipe"><strong>Pipe</strong></a>(value: ~T) -&gt; pymonad.reader._Pipe[typing.Any, ~T]</dt><dd><tt>Creates&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Pipe&nbsp;monad.<br>
+&nbsp;<br>
+Pipe&nbsp;is&nbsp;basically&nbsp;an&nbsp;alias&nbsp;for&nbsp;the&nbsp;Reader&nbsp;monad&nbsp;except&nbsp;with&nbsp;the<br>
+insert&nbsp;and&nbsp;apply&nbsp;methods&nbsp;removed.&nbsp;It's&nbsp;purpose&nbsp;is&nbsp;simply&nbsp;to<br>
+provide&nbsp;a&nbsp;semantically&nbsp;meaningful&nbsp;monad&nbsp;instance&nbsp;to&nbsp;be&nbsp;used<br>
+specifically&nbsp;for&nbsp;the&nbsp;purpose&nbsp;of&nbsp;chaining&nbsp;function&nbsp;calls&nbsp;by&nbsp;taking<br>
+the&nbsp;output&nbsp;of&nbsp;one&nbsp;function&nbsp;as&nbsp;the&nbsp;input&nbsp;to&nbsp;the&nbsp;next.<br>
+&nbsp;<br>
+Since&nbsp;Pipe&nbsp;is&nbsp;a&nbsp;subclass&nbsp;of&nbsp;Reader&nbsp;it's&nbsp;really&nbsp;building&nbsp;a&nbsp;function<br>
+but,&nbsp;semantically,&nbsp;pipes&nbsp;start&nbsp;with&nbsp;some&nbsp;input&nbsp;and&nbsp;end&nbsp;with&nbsp;a<br>
+result.&nbsp;For&nbsp;this&nbsp;reason,&nbsp;Pipe&nbsp;adds&nbsp;a&nbsp;'flush'&nbsp;method&nbsp;which&nbsp;calls<br>
+the&nbsp;composed&nbsp;function&nbsp;with&nbsp;dummy&nbsp;input&nbsp;(which&nbsp;will&nbsp;be&nbsp;ignored)&nbsp;and<br>
+simply&nbsp;returns&nbsp;the&nbsp;embedded&nbsp;result.&nbsp;Optionally,&nbsp;you&nbsp;can&nbsp;instead<br>
+use&nbsp;the&nbsp;unary&nbsp;'+'&nbsp;operator&nbsp;instead&nbsp;of&nbsp;'flush'&nbsp;to&nbsp;do&nbsp;the&nbsp;same<br>
+thing.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;inc(x):&nbsp;return&nbsp;x&nbsp;+&nbsp;1<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pipe_with_flush&nbsp;=&nbsp;(<a href="#-Pipe">Pipe</a>(0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(inc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(inc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.flush())<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pipe_with_plus&nbsp;=&nbsp;+(<a href="#-Pipe">Pipe</a>(0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(inc)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(inc))<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pipe_with_flush&nbsp;==&nbsp;pipe_with_plus&nbsp;#&nbsp;True</tt></dd></dl>
+ <dl><dt><a name="-Reader"><strong>Reader</strong></a>(function: Callable[[~R], ~T]) -&gt; pymonad.reader._Reader[~R, ~T]</dt><dd><tt>Creates&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Reader&nbsp;monad.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;function:&nbsp;a&nbsp;function&nbsp;which&nbsp;takes&nbsp;the&nbsp;read-only&nbsp;data&nbsp;as&nbsp;input&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;any&nbsp;appropriate&nbsp;type.<br>
+&nbsp;<br>
+Result:<br>
+&nbsp;&nbsp;An&nbsp;instance&nbsp;of&nbsp;the&nbsp;Reader&nbsp;monad.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Any</strong> = typing.Any<br>
+<strong>Callable</strong> = typing.Callable<br>
+<strong>R</strong> = ~R<br>
+<strong>S</strong> = ~S<br>
+<strong>T</strong> = ~T<br>
+<strong>Union</strong> = typing.Union</td></tr></table>
+</body></html>

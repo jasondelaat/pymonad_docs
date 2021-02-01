@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pymonad.tools</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pymonad.html"><font color="#ffffff">pymonad</font></a>.tools</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/home/jason/Files/projects/pymonad/pymonad/tools.py">/usr/home/jason/Files/projects/pymonad/pymonad/tools.py</a></font></td></tr></table>
+    <p><tt>The&nbsp;tools&nbsp;module&nbsp;contains&nbsp;useful&nbsp;functions&nbsp;that&nbsp;don't&nbsp;really&nbsp;belong&nbsp;anywhere&nbsp;else.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pymonad.monad.html">pymonad.monad</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-curry"><strong>curry</strong></a> = _curry_internal(*arguments: List[Any])</dt><dd><tt>Creates&nbsp;a&nbsp;curried&nbsp;function&nbsp;from&nbsp;a&nbsp;normal&nbsp;function&nbsp;of&nbsp;callable&nbsp;object.<br>
+&nbsp;<br>
+The&nbsp;curry&nbsp;function&nbsp;is&nbsp;itself&nbsp;curried&nbsp;and&nbsp;can&nbsp;be&nbsp;partially<br>
+applied.&nbsp;It&nbsp;can&nbsp;be&nbsp;used&nbsp;either&nbsp;as&nbsp;a&nbsp;normal&nbsp;function&nbsp;call&nbsp;or&nbsp;as&nbsp;a<br>
+decorator.&nbsp;The&nbsp;required&nbsp;number_of_arguments&nbsp;parameter&nbsp;makes&nbsp;it<br>
+possible&nbsp;to&nbsp;curry&nbsp;functions&nbsp;which&nbsp;take&nbsp;a&nbsp;variable&nbsp;number&nbsp;of<br>
+arguments&nbsp;like&nbsp;the&nbsp;built-in&nbsp;'map'&nbsp;function.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Usage:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;curried_map&nbsp;=&nbsp;<a href="#-curry">curry</a>(2,&nbsp;map)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@<a href="#-curry">curry</a>(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;some_func(x,&nbsp;y,&nbsp;z):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;x&nbsp;+&nbsp;y&nbsp;-&nbsp;z<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number_of_arguments:&nbsp;The&nbsp;number&nbsp;of&nbsp;arguments&nbsp;function_to_curry<br>
+&nbsp;&nbsp;&nbsp;&nbsp;takes&nbsp;as&nbsp;input.&nbsp;If&nbsp;function_to_curry&nbsp;takes&nbsp;a&nbsp;variable&nbsp;number&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arguments,&nbsp;then&nbsp;number&nbsp;of&nbsp;curried&nbsp;arguments&nbsp;desired&nbsp;in&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;result:&nbsp;function_to_curry&nbsp;will&nbsp;be&nbsp;called&nbsp;once&nbsp;this&nbsp;many<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arguments&nbsp;have&nbsp;been&nbsp;supplied.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;function_to_curry:&nbsp;The&nbsp;function&nbsp;that&nbsp;we&nbsp;wish&nbsp;to&nbsp;curry<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;new&nbsp;function&nbsp;which&nbsp;may&nbsp;be&nbsp;partially&nbsp;applied&nbsp;simply&nbsp;by&nbsp;passing<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;desired&nbsp;number&nbsp;of&nbsp;arguments.</tt></dd></dl>
+ <dl><dt><a name="-identity"><strong>identity</strong></a>(value: ~T) -&gt; ~T</dt><dd><tt>Returns&nbsp;it's&nbsp;input&nbsp;value&nbsp;unchanged.</tt></dd></dl>
+ <dl><dt><a name="-kleisli_compose"><strong>kleisli_compose</strong></a>(function_f: Callable[[~R], pymonad.monad.Monad[~S]], function_g: Callable[[~S], pymonad.monad.Monad[~T]]) -&gt; Callable[[~R], pymonad.monad.Monad[~T]]</dt><dd><tt>Composes&nbsp;two&nbsp;Kleisli&nbsp;functions.<br>
+&nbsp;<br>
+Kleisli&nbsp;functions&nbsp;are&nbsp;functions&nbsp;which&nbsp;take&nbsp;as&nbsp;input&nbsp;a&nbsp;'bare'&nbsp;value<br>
+and&nbsp;return&nbsp;an&nbsp;'embellished'&nbsp;value.&nbsp;For&nbsp;instance,&nbsp;if&nbsp;we&nbsp;have&nbsp;a<br>
+function&nbsp;f&nbsp;which&nbsp;maps&nbsp;a's&nbsp;to&nbsp;b's,&nbsp;it's&nbsp;type&nbsp;is:<br>
+&nbsp;&nbsp;f&nbsp;::&nbsp;a&nbsp;-&gt;&nbsp;b<br>
+&nbsp;<br>
+Then&nbsp;the&nbsp;corresponding&nbsp;Kleisli&nbsp;function,&nbsp;f_kleisli&nbsp;has&nbsp;the&nbsp;type:<br>
+&nbsp;&nbsp;f_kleisli&nbsp;::&nbsp;a&nbsp;-&gt;&nbsp;(b,&nbsp;m)<br>
+&nbsp;<br>
+The&nbsp;type&nbsp;(b,&nbsp;m)&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;internal&nbsp;representation&nbsp;of&nbsp;the<br>
+Monad&nbsp;class,&nbsp;so&nbsp;in&nbsp;terms&nbsp;of&nbsp;pymonad,&nbsp;a&nbsp;Kleisli&nbsp;function&nbsp;is&nbsp;one<br>
+which&nbsp;maps&nbsp;values&nbsp;of&nbsp;type&nbsp;a&nbsp;to&nbsp;values&nbsp;of&nbsp;some&nbsp;sub-class&nbsp;of&nbsp;Monad.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;fail_if_zero(x):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;Nothing&nbsp;if&nbsp;x&nbsp;is&nbsp;zero&nbsp;else&nbsp;Just(x)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;add1(x):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;Just(x&nbsp;+&nbsp;1)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new_function&nbsp;=&nbsp;<a href="#-kleisli_compose">kleisli_compose</a>(add1,&nbsp;fail_if_zero)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new_function(0)&nbsp;#&nbsp;returns&nbsp;Just(1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new_function(-1)&nbsp;#&nbsp;returns&nbsp;Nothing<br>
+&nbsp;<br>
+add1&nbsp;and&nbsp;fail_if_zero&nbsp;are&nbsp;Kleisli&nbsp;functions&nbsp;and&nbsp;new_function&nbsp;is<br>
+the&nbsp;function&nbsp;which&nbsp;results&nbsp;from&nbsp;first&nbsp;performing&nbsp;add1&nbsp;followed&nbsp;by<br>
+fail_if_zero.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;function_f:&nbsp;a&nbsp;function&nbsp;with&nbsp;type:&nbsp;a&nbsp;-&gt;&nbsp;(b,&nbsp;m)<br>
+&nbsp;&nbsp;function_g:&nbsp;a&nbsp;function&nbsp;with&nbsp;type:&nbsp;b&nbsp;-&gt;&nbsp;(c,&nbsp;m)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;A&nbsp;new&nbsp;Kleisli&nbsp;function&nbsp;with&nbsp;type:&nbsp;a&nbsp;-&gt;&nbsp;(c,&nbsp;m)</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Any</strong> = typing.Any<br>
+<strong>Callable</strong> = typing.Callable<br>
+<strong>List</strong> = typing.List<br>
+<strong>R</strong> = ~R<br>
+<strong>S</strong> = ~S<br>
+<strong>T</strong> = ~T</td></tr></table>
+</body></html>

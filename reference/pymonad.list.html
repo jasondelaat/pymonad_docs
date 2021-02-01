@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pymonad.list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="pymonad.html"><font color="#ffffff">pymonad</font></a>.list</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/home/jason/Files/projects/pymonad/pymonad/list.py">/usr/home/jason/Files/projects/pymonad/pymonad/list.py</a></font></td></tr></table>
+    <p><tt>Implements&nbsp;the&nbsp;List&nbsp;monad.<br>
+&nbsp;<br>
+The&nbsp;List&nbsp;monad&nbsp;is&nbsp;frequently&nbsp;used&nbsp;to&nbsp;represent&nbsp;calculations&nbsp;with<br>
+non-deterministic&nbsp;results,&nbsp;that&nbsp;is:&nbsp;functions&nbsp;which&nbsp;return&nbsp;more&nbsp;than<br>
+one&nbsp;(possible)&nbsp;result.&nbsp;For&nbsp;example,&nbsp;calculating&nbsp;how&nbsp;chess&nbsp;pieces&nbsp;might<br>
+move.<br>
+&nbsp;<br>
+&nbsp;&nbsp;Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;knight_move(position):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;calculates&nbsp;a&nbsp;list&nbsp;of&nbsp;every&nbsp;possible&nbsp;square&nbsp;a&nbsp;knight&nbsp;could&nbsp;move<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;to&nbsp;from&nbsp;it's&nbsp;current&nbsp;position<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;<a href="#-ListMonad">ListMonad</a>(position_1,&nbsp;position_2,&nbsp;...,&nbsp;position_N)<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;A&nbsp;list&nbsp;containing&nbsp;every&nbsp;square&nbsp;a&nbsp;knight&nbsp;could&nbsp;reach&nbsp;after&nbsp;3&nbsp;moves.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;three_moves&nbsp;=&nbsp;(List<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.insert(initial_position)&nbsp;#&nbsp;However&nbsp;positions&nbsp;are&nbsp;defined.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(knight_move)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(knight_move)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.then(knight_move))</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pymonad.html">pymonad</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-ListMonad"><strong>ListMonad</strong></a>(*elements: List[~T]) -&gt; pymonad.list._List[~T]</dt><dd><tt>Creates&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;List&nbsp;monad.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;*elements:&nbsp;any&nbsp;number&nbsp;of&nbsp;elements&nbsp;to&nbsp;be&nbsp;inserted&nbsp;into&nbsp;the&nbsp;list<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;An&nbsp;instance&nbsp;of&nbsp;the&nbsp;List&nbsp;monad.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Any</strong> = typing.Any<br>
+<strong>Callable</strong> = typing.Callable<br>
+<strong>List</strong> = typing.List<br>
+<strong>S</strong> = ~S<br>
+<strong>T</strong> = ~T<br>
+<strong>Union</strong> = typing.Union</td></tr></table>
+</body></html>

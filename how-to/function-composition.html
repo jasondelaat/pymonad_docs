@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-08-16 Sun 12:01 -->
+<!-- 2021-02-01 Mon 05:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Function Composition</title>
@@ -161,6 +161,19 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -186,7 +199,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -232,9 +245,9 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title">Function Composition</h1>
 
-<div id="outline-container-org003b857" class="outline-2">
-<h2 id="org003b857">Function Composition</h2>
-<div class="outline-text-2" id="text-org003b857">
+<div id="outline-container-org4829e46" class="outline-2">
+<h2 id="org4829e46">Function Composition</h2>
+<div class="outline-text-2" id="text-org4829e46">
 <p>
 There are two ways to handle basic function composition with
 pymonad: <code>Compose</code> and <code>Pipe</code>. Both are really just aliases for the
@@ -244,9 +257,9 @@ used slightly differently.
 </p>
 </div>
 
-<div id="outline-container-org9afea68" class="outline-3">
-<h3 id="org9afea68">Compose</h3>
-<div class="outline-text-3" id="text-org9afea68">
+<div id="outline-container-orgc25aae9" class="outline-3">
+<h3 id="orgc25aae9">Compose</h3>
+<div class="outline-text-3" id="text-orgc25aae9">
 <p>
 <code>Compose</code> takes a series of functions and combines them in a
 feed-forward manner producing a new function.
@@ -274,9 +287,9 @@ feed-forward manner producing a new function.
 </div>
 </div>
 
-<div id="outline-container-org6fccdb5" class="outline-3">
-<h3 id="org6fccdb5">Pipe</h3>
-<div class="outline-text-3" id="text-org6fccdb5">
+<div id="outline-container-org65242a1" class="outline-3">
+<h3 id="org65242a1">Pipe</h3>
+<div class="outline-text-3" id="text-org65242a1">
 <p>
 <code>Pipe</code> is similar to <code>Compose</code> but rather than starting with a
 function it starts by taking in a value and then feeding it through
@@ -338,18 +351,18 @@ instead of <code>flush()</code>, like so:
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara">Since <code>Pipe</code> is based on the
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">Since <code>Pipe</code> is based on the
 <code>Reader</code> monad, without <code>flush()</code> you would actually get a
 function as a result. That function, however, would ignore it's
 input and always give the same result. <code>flush()</code> simply calls
-this function with dummy input and gives you back the result.</div></div>
+this function with dummy input and gives you back the result.</p></div></div>
 
 
 </div>
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: Jason DeLaat</p>
-<p class="date">Created: 2020-08-16 Sun 12:01</p>
+<p class="date">Created: 2021-02-01 Mon 05:55</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

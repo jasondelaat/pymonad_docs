@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-08-17 Mon 11:35 -->
+<!-- 2021-02-01 Mon 05:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>What's a monad?</title>
@@ -161,6 +161,19 @@
   .footdef  { margin-bottom: 1em; }
   .figure { padding: 1em; }
   .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
   .inlinetask {
     padding: 10px;
     border: 2px solid gray;
@@ -186,7 +199,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -236,9 +249,9 @@ Note: The following explanation is based on <a href="https://bartoszmilewski.com
 Milewski.
 </p>
 
-<div id="outline-container-org3e94c30" class="outline-2">
-<h2 id="org3e94c30">Introduction</h2>
-<div class="outline-text-2" id="text-org3e94c30">
+<div id="outline-container-org9c8e19d" class="outline-2">
+<h2 id="org9c8e19d">Introduction</h2>
+<div class="outline-text-2" id="text-org9c8e19d">
 <p>
 Monads are famously misunderstood. They've been likened to space
 suits, toxic waste and who knows what else. Depending on who you ask
@@ -266,9 +279,9 @@ simple: monads are function composition.
 </div>
 </div>
 
-<div id="outline-container-orgd100ddf" class="outline-2">
-<h2 id="orgd100ddf">A simple logging example</h2>
-<div class="outline-text-2" id="text-orgd100ddf">
+<div id="outline-container-org5b16058" class="outline-2">
+<h2 id="org5b16058">A simple logging example</h2>
+<div class="outline-text-2" id="text-org5b16058">
 <p>
 At least as far as programmers need to worry about them, monads are
 basically just a type of function composition. If you understand
@@ -277,7 +290,7 @@ how function composition works, you pretty much understand monads.
 
 <p>
 So let's see how this works. For the purposes of explanation we need
-a way to compose functions. Pymonad has a <a href="how-to/function-composition.html">Compose construct</a> for this
+a way to compose functions. Pymonad has a <a href="file:///usr/home/jason/Files/Python/pymonad_docs/src/how-to/function-composition.html">Compose construct</a> for this
 purpose but it's built on top of the Reader monad and I don't want
 to use a monad to explain monads. So we'll use this instead:
 </p>
@@ -395,9 +408,9 @@ That's a monad.
 </div>
 </div>
 
-<div id="outline-container-org2be593b" class="outline-2">
-<h2 id="org2be593b">All monad types are tuples in disguise</h2>
-<div class="outline-text-2" id="text-org2be593b">
+<div id="outline-container-orgef80061" class="outline-2">
+<h2 id="orgef80061">All monad types are tuples in disguise</h2>
+<div class="outline-text-2" id="text-orgef80061">
 <p>
 The above example is a simplified version of the Writer monad. In a
 sense, the monad's type is the tuple returned from each of the
@@ -502,9 +515,9 @@ but it is always possible.
 </div>
 </div>
 
-<div id="outline-container-orgdb63a15" class="outline-2">
-<h2 id="orgdb63a15">Generalizing</h2>
-<div class="outline-text-2" id="text-orgdb63a15">
+<div id="outline-container-orgb36d713" class="outline-2">
+<h2 id="orgb36d713">Generalizing</h2>
+<div class="outline-text-2" id="text-orgb36d713">
 <p>
 If you know a little bit about monads already you might be
 wondering where <code>bind</code> (the <code>&gt;&gt;=</code> operator in Haskell) is in all of
@@ -656,15 +669,15 @@ actually is: function composition.
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara">In pymonad.tools
-this function is called <code>kleisli_compose</code>.</div></div>
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">In pymonad.tools
+this function is called <code>kleisli_compose</code>.</p></div></div>
 
 
 </div>
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: Jason DeLaat</p>
-<p class="date">Created: 2020-08-17 Mon 11:35</p>
+<p class="date">Created: 2021-02-01 Mon 05:55</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
